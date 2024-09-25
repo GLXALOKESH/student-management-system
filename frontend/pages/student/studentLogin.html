@@ -9,7 +9,7 @@
 <body>
     <div class="container">
         <h2 class="text-center mt-5">Student Login</h2>
-        <form class="mt-4">
+        <form id="studentLoginForm" class="mt-4">
             <div class="form-group">
                 <label for="studentEmail">Email:</label>
                 <input type="email" class="form-control" id="studentEmail" required>
@@ -20,7 +20,34 @@
             </div>
             <button type="submit" class="btn btn-primary btn-block">Login</button>
         </form>
-        <p class="text-center mt-3"><a href="#">Forgot Password?</a></p>
+        <p class="text-center mt-3"><a href="#">Don't have an account? Sign up</a></p>
     </div>
+
+    <script>
+        document.getElementById('studentLoginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('studentEmail').value;
+            const pasw = document.getElementById('studentPassword').value;
+
+            const loginData = {
+                email,
+                pasw
+            };
+
+            // Send data to backend (replace with your backend URL)
+            fetch('http://192.168.0.29:8090/api/v1/auth/student/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(loginData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                // Add redirect or success handling here
+            })
+            .catch((error) => console.error('Error:', error));
+        });
+    </script>
 </body>
 </html>

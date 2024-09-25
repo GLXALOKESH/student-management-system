@@ -9,7 +9,7 @@
 <body>
     <div class="container">
         <h2 class="text-center mt-5">Admin Login</h2>
-        <form class="mt-4">
+        <form id="adminLoginForm" class="mt-4">
             <div class="form-group">
                 <label for="adminEmail">Email:</label>
                 <input type="email" class="form-control" id="adminEmail" required>
@@ -18,9 +18,36 @@
                 <label for="adminPassword">Password:</label>
                 <input type="password" class="form-control" id="adminPassword" required>
             </div>
-            <button type="submit" class="btn btn-danger btn-block">Login</button>
+            <button type="submit" class="btn btn-warning btn-block">Login</button>
         </form>
-        <p class="text-center mt-3"><a href="#">Forgot Password?</a></p>
+        <p class="text-center mt-3"><a href="#">Don't have an account? Sign up</a></p>
     </div>
+
+    <script>
+        document.getElementById('adminLoginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('adminEmail').value;
+            const password = document.getElementById('adminPassword').value;
+
+            const loginData = {
+                email,
+                password
+            };
+
+            // Send data to backend (replace with your backend URL)
+            fetch('https://your-backend-api.com/adminLogin', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(loginData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                // Add redirect or success handling here
+            })
+            .catch((error) => console.error('Error:', error));
+        });
+    </script>
 </body>
 </html>

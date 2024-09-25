@@ -9,9 +9,9 @@
 <body>
     <div class="container">
         <h2 class="text-center mt-5">Teacher Signup</h2>
-        <form class="mt-4">
+        <form id="teacherSignupForm" class="mt-4">
             <div class="form-group">
-                <label for="teacherName">Name:</label>
+                <label for="teacherName">Full Name:</label>
                 <input type="text" class="form-control" id="teacherName" required>
             </div>
             <div class="form-group">
@@ -19,12 +19,63 @@
                 <input type="email" class="form-control" id="teacherEmail" required>
             </div>
             <div class="form-group">
+                <label for="teacherPhone">Phone Number:</label>
+                <input type="tel" class="form-control" id="teacherPhone" required>
+            </div>
+            <div class="form-group">
                 <label for="teacherPassword">Password:</label>
                 <input type="password" class="form-control" id="teacherPassword" required>
+            </div>
+            <div class="form-group">
+                <label for="securityQuestion">Security Question:</label>
+                <select class="form-control" id="securityQuestion" required>
+                    <option value="">Select a Security Question</option>
+                    <option value="first_pet">What is your first pet's name?</option>
+                    <option value="birth_city">What city were you born in?</option>
+                    <option value="favorite_teacher">Who was your favorite teacher?</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="securityAnswer">Answer:</label>
+                <input type="text" class="form-control" id="securityAnswer" required>
             </div>
             <button type="submit" class="btn btn-success btn-block">Sign Up</button>
         </form>
         <p class="text-center mt-3"><a href="#">Already have an account? Login</a></p>
     </div>
+
+    <script>
+        document.getElementById('teacherSignupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('teacherName').value;
+            const email = document.getElementById('teacherEmail').value;
+            const phone = document.getElementById('teacherPhone').value;
+            const password = document.getElementById('teacherPassword').value;
+            const securityQuestion = document.getElementById('securityQuestion').value;
+            const securityAnswer = document.getElementById('securityAnswer').value;
+
+            const userId = email.split('@')[0];
+
+            const signupData = {
+                name,
+                email,
+                phone,
+                password,
+                securityQuestion,
+                securityAnswer,
+                userId
+            };
+
+            fetch('https://your-backend-api.com/teacherSignup', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(signupData)
+            })
+            .then(response => response.json())
+            .then(data => console.log('Success:', data))
+            .catch((error) => console.error('Error:', error));
+        });
+    </script>
 </body>
 </html>

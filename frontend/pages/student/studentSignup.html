@@ -9,9 +9,9 @@
 <body>
     <div class="container">
         <h2 class="text-center mt-5">Student Signup</h2>
-        <form class="mt-4">
+        <form id="studentSignupForm" class="mt-4">
             <div class="form-group">
-                <label for="studentName">Name:</label>
+                <label for="studentName">Full Name:</label>
                 <input type="text" class="form-control" id="studentName" required>
             </div>
             <div class="form-group">
@@ -19,13 +19,69 @@
                 <input type="email" class="form-control" id="studentEmail" required>
             </div>
             <div class="form-group">
+                <label for="studentPhone">Phone Number:</label>
+                <input type="tel" class="form-control" id="studentPhone" required>
+            </div>
+            <div class="form-group">
                 <label for="studentPassword">Password:</label>
                 <input type="password" class="form-control" id="studentPassword" required>
+            </div>
+            <div class="form-group">
+                <label for="securityQuestion">Security Question:</label>
+                <select class="form-control" id="securityQuestion" required>
+                    <option value="00">Select a Security Question</option>
+                    <option value="01">What is your first pet's name?</option>
+                    <option value="02">What city were you born in?</option>
+                    <option value="03">Who was your favorite teacher?</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="securityAnswer">Answer:</label>
+                <input type="text" class="form-control" id="securityAnswer" required>
             </div>
             <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
         </form>
         <p class="text-center mt-3"><a href="#">Already have an account? Login</a></p>
     </div>
+
+    <script>
+        document.getElementById('studentSignupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const fullName = document.getElementById('studentName').value;
+            const email = document.getElementById('studentEmail').value;
+            const phone = document.getElementById('studentPhone').value;
+            const pasw = document.getElementById('studentPassword').value;
+            const secQs = document.getElementById('securityQuestion').value;
+            if(secQs == "00"){
+                alert("select a question")
+            }
+            const secQsAns = document.getElementById('securityAnswer').value;
+
+            // Generate user ID from email (part before @)
+            const userId = email.split('@')[0];
+
+            // Data object to send
+            const signupData = {
+                fullName,
+                email,
+                phone,
+                pasw,
+                secQs,
+                secQsAns,
+                userId
+            };
+
+            // Send data to backend (replace URL with your backend endpoint)
+            fetch('http://192.168.0.29:8090/api/v1/auth/student/signup', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(signupData)
+            })
+            .then(response => response.json())
+            .then(data => console.log('Success:', data))
+            .catch((error) => console.error('Error:', error));
+        });
+    </script>
 </body>
 </html>
-    
