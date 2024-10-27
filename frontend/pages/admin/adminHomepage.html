@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            display: flex;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        #sidebar {
+            width: 250px;
+            background-color: #343a40;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+        }
+        #sidebar h2 {
+            color: #f8f9fa;
+            text-align: center;
+        }
+        #sidebar a {
+            color: white;
+            padding: 15px;
+            display: block;
+            text-decoration: none;
+            margin-bottom: 10px;
+        }
+        #sidebar a:hover {
+            background-color: #495057;
+        }
+        #sidebar .active {
+            background-color: #495057;
+        }
+        #content {
+            flex-grow: 1;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        #profile-section {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .profile-item {
+            margin-bottom: 10px;
+        }
+        .profile-item strong {
+            display: inline-block;
+            width: 150px;
+        }
+        @media (max-width: 768px) {
+            #sidebar {
+                width: 100%;
+                height: auto;
+                display: block;
+            }
+            #content {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div id="sidebar">
+        <h2>Admin Dashboard</h2>
+        <a href="adminHome.html" class="active"><i class="fas fa-home"></i> Home</a>
+        <a href="adminCourses.html"><i class="fas fa-book"></i> Manage Courses</a>
+        <a href="adminSettings.html"><i class="fas fa-cog"></i> Settings</a>
+    </div>
+
+    <!-- Content Section -->
+    <div id="content">
+        <h3>Welcome, Admin</h3>
+        <div id="profile-section">
+            <h4>Your Profile</h4>
+            <div class="profile-item">
+                <strong>Full Name:</strong> Admin User
+            </div>
+            <div class="profile-item">
+                <strong>Email:</strong> admin@admin.com
+            </div>
+            <div class="profile-item">
+                <strong>Phone:</strong> 112-233-4455
+            </div>
+            <div class="profile-item">
+                <strong>Managed Users:</strong> 150
+            </div>
+            <div class="profile-item">
+                <strong>Courses Managed:</strong> 20
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
