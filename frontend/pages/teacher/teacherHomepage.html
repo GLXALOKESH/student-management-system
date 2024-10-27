@@ -83,16 +83,16 @@
         <div id="profile-section">
             <h4>Your Profile</h4>
             <div class="profile-item">
-                <strong>Full Name:</strong> Jane Smith
+                <strong>Full Name:</strong> <span id="fullName">Loading...</span>
             </div>
             <div class="profile-item">
-                <strong>Email:</strong> jane@teacher.com
+                <strong>Email:</strong> <span id="email">Loading...</span>
             </div>
             <div class="profile-item">
-                <strong>Phone:</strong> 987-654-3210
+                <strong>Phone:</strong> <span id="phone">Loading...</span>
             </div>
             <div class="profile-item">
-                <strong>Courses Created:</strong> 5
+                <strong>Courses Created:</strong> <span id="coursesCreated">Loading...</span>
             </div>
         </div>
     </div>
@@ -101,5 +101,33 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            fetchTeacherData();
+        });
+
+        async function fetchTeacherData() {
+            try {
+                // Fetch teacher data from the backend API endpoint
+                const response = await fetch("https://your-backend-api-url.com/teacher/profile");
+                
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+
+                const data = await response.json();
+
+                // Populate the profile section with the fetched data
+                document.getElementById("fullName").textContent = data.fullName || "Not available";
+                document.getElementById("email").textContent = data.email || "Not available";
+                document.getElementById("phone").textContent = data.phone || "Not available";
+                document.getElementById("coursesCreated").textContent = data.coursesCreated || 0;
+            } catch (error) {
+                console.error("Error fetching teacher data:", error);
+                alert("Failed to load teacher profile. Please try again later.");
+            }
+        }
+    </script>
 </body>
 </html>
