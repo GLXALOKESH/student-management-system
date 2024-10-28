@@ -1,289 +1,402 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
     <title>Teacher Courses</title>
     <style>
-        body {
-            display: flex;
-            height: 100vh;
-            margin: 0;
-            font-family: Arial, sans-serif;
-        }
-        #sidebar {
-            width: 250px;
-            background-color: #343a40;
-            color: white;
-            display: flex;
-            flex-direction: column;
-            padding: 10px;
-        }
-        #sidebar h2 {
-            color: #f8f9fa;
-            text-align: center;
-        }
-        #sidebar a {
-            color: white;
-            padding: 15px;
-            display: block;
-            text-decoration: none;
-            margin-bottom: 10px;
-        }
-        #sidebar a:hover {
-            background-color: #495057;
-        }
-        #sidebar .active {
-            background-color: #495057;
-        }
-        #content {
-            flex-grow: 1;
-            padding: 20px;
-            background-color: #f8f9fa;
-        }
-        #course-section {
-            background-color: white;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .course-item {
-            padding: 15px;
-            border-bottom: 1px solid #ddd;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .course-item:last-child {
-            border-bottom: none;
-        }
-        .course-item button {
-            margin-left: 10px;
-        }
-        .course-actions {
-            display: flex;
-        }
-        #create-course {
-            margin-top: 20px;
-            text-align: center;
-        }
-        .btn-create {
-            background-color: #007bff;
-            color: white;
-        }
-        .btn-create:hover {
-            background-color: #0056b3;
-        }
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 100;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.4);
-            padding-top: 60px;
-        }
-        .modal-content {
-            background-color: #fefefe;
-            margin: 5% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-            max-width: 500px;
-            border-radius: 5px;
-        }
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-        .close:hover, .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-        .btn-disabled {
-            background-color: #cccccc;
-            cursor: not-allowed;
-        }
-        .btn-create-course {
-            background-color: #28a745;
-            color: white;
-        }
-        .btn-create-course:hover {
-            background-color: #218838;
-        }
-        @media (max-width: 768px) {
-            #sidebar {
-                width: 100%;
-                height: auto;
-                display: block;
-            }
-            #content {
-                padding: 10px;
-            }
-        }
+      /* Styles for sidebar, content, modals, and buttons */
+      body {
+        display: flex;
+        height: 100vh;
+        margin: 0;
+        font-family: Arial, sans-serif;
+      }
+      #sidebar {
+        width: 250px;
+        background-color: #343a40;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+      }
+      #sidebar h2 {
+        color: #f8f9fa;
+        text-align: center;
+      }
+      #sidebar a {
+        color: white;
+        padding: 15px;
+        display: block;
+        text-decoration: none;
+        margin-bottom: 10px;
+      }
+      #sidebar a:hover,
+      #sidebar .active {
+        background-color: #495057;
+      }
+      #content {
+        flex-grow: 1;
+        padding: 20px;
+        background-color: #f8f9fa;
+      }
+      #course-section {
+        background-color: white;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      .course-item {
+        padding: 15px;
+        border-bottom: 1px solid #ddd;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .course-item:last-child {
+        border-bottom: none;
+      }
+      .btn-create {
+        background-color: #007bff;
+        color: white;
+      }
+      .btn-create:hover {
+        background-color: #0056b3;
+      }
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 100;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+        padding-top: 60px;
+      }
+      .modal-content {
+        background-color: #fefefe;
+        margin: 5% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 500px;
+        border-radius: 5px;
+      }
+      .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+      }
+      .close:hover,
+      .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+      }
+      .btn-disabled {
+        background-color: #cccccc;
+        cursor: not-allowed;
+      }
+      .modal-backdrop {
+        z-index: 99 !important; /* Set this below the modal z-index */
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <!-- Sidebar -->
     <div id="sidebar">
-        <h2>Teacher Dashboard</h2>
-        <a href="teacherHome.html"><i class="fas fa-home"></i> Home</a>
-        <a href="teacherCourses.html" class="active"><i class="fas fa-book"></i> Courses</a>
-        <a href="teacherSettings.html"><i class="fas fa-cog"></i> Settings</a>
+      <h2>Teacher Dashboard</h2>
+      <a href="teacherHome.html"><i class="fas fa-home"></i> Home</a>
+      <a href="teacherCourses.html" class="active"
+        ><i class="fas fa-book"></i> Courses</a
+      >
+      <a href="teacherSettings.html"><i class="fas fa-cog"></i> Settings</a>
     </div>
 
     <!-- Content Section -->
     <div id="content">
-        <h3>Manage Your Courses</h3>
-        <div id="course-section">
-            <h4>Your Courses</h4>
-            
-            <!-- Dynamically Added Courses -->
-            <div id="course-list">
-                <div class="course-item" data-id="1">
-                    <span>Course 1: Introduction to Programming</span>
-                    <div class="course-actions">
-                        <button class="btn btn-primary" onclick="authenticate('edit', '1')">Edit</button>
-                        <button class="btn btn-danger" onclick="authenticate('delete', '1')">Delete</button>
-                    </div>
-                </div>
-            </div>
+      <h3>Manage Your Courses</h3>
+      <div id="course-section">
+        <h4>Your Courses</h4>
 
-            <!-- Create Course Button -->
-            <div id="create-course">
-                <button class="btn btn-create" onclick="openModal('create')">Create New Course</button>
+        <!-- Dynamically Added Courses -->
+        <div id="course-list">
+          <div class="course-item" data-id="1">
+            <span>Course 1: Introduction to Programming</span>
+            <div class="course-actions">
+              <button
+                class="btn btn-primary"
+                onclick="openPasswordModal('editCourse')"
+              >
+                Edit
+              </button>
+              <button
+                class="btn btn-danger"
+                onclick="openPasswordModal('deleteCourse')"
+              >
+                Delete
+              </button>
             </div>
+          </div>
         </div>
+
+        <!-- Create Course Button -->
+        <div id="create-course" style="text-align: center; margin-top: 20px">
+          <button
+            class="btn btn-create"
+            onclick="openModal('createCourseModal')"
+          >
+            Create New Course
+          </button>
+        </div>
+      </div>
     </div>
 
-    <!-- Modal for Creating New Course -->
+    <!-- Modals -->
     <div id="createCourseModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('create')">&times;</span>
-            <h4>Create New Course</h4>
-            <form id="courseForm">
-                <div class="form-group">
-                    <label for="courseName">Course Name</label>
-                    <input type="text" class="form-control" id="courseName" placeholder="Enter course name" oninput="validateForm('create')">
-                </div>
-                <div class="form-group">
-                    <label for="courseDesc">Course Description</label>
-                    <textarea class="form-control" id="courseDesc" rows="3" placeholder="Enter course description" oninput="validateForm('create')"></textarea>
-                </div>
-                <button type="button" class="btn btn-create-course btn-disabled" id="createCourseBtn" disabled onclick="createCourse()">Create Course</button>
-            </form>
-        </div>
+      <div class="modal-content">
+        <span class="close" onclick="closeModal('createCourseModal')"
+          >&times;</span
+        >
+        <h4>Create New Course</h4>
+        <form id="courseForm">
+          <div class="form-group">
+            <label for="courseName">Course Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="courseName"
+              placeholder="Enter course name"
+              oninput="validateForm()"
+            />
+          </div>
+          <div class="form-group">
+            <label for="courseDesc">Course Description</label>
+            <textarea
+              class="form-control"
+              id="courseDesc"
+              rows="3"
+              placeholder="Enter course description"
+              oninput="validateForm()"
+            ></textarea>
+          </div>
+          <button
+            type="button"
+            class="btn btn-success btn-disabled"
+            id="createCourseBtn"
+            disabled
+            onclick="createCourse()"
+          >
+            Create Course
+          </button>
+        </form>
+      </div>
     </div>
 
     <!-- Password Authentication Modal -->
-    <div id="passwordModal" class="modal">
+    <div
+      class="modal fade"
+      id="passwordModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="passwordModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
         <div class="modal-content">
-            <span class="close" onclick="closeModal('password')">&times;</span>
-            <h4>Password Authentication</h4>
-            <form id="passwordForm">
-                <div class="form-group">
-                    <label for="password">Enter Password</label>
-                    <input type="password" class="form-control" id="password" placeholder="Enter password" oninput="validatePassword()">
-                </div>
-                <button type="button" class="btn btn-primary btn-disabled" id="authBtn" disabled onclick="authenticateAction()">Submit</button>
-            </form>
+          <div class="modal-header">
+            <h5 class="modal-title" id="passwordModalLabel">
+              Password Authentication
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <input
+              type="password"
+              class="form-control"
+              id="authPassword"
+              placeholder="Enter your password"
+              required
+            />
+            <small id="authError" class="text-danger d-none"
+              >Invalid password, please try again.</small
+            >
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              id="confirmAuthBtn"
+              onclick=""
+            >
+              Authenticate
+            </button>
+          </div>
         </div>
+      </div>
     </div>
 
-    <!-- Edit Course Modal -->
     <div id="editCourseModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('edit')">&times;</span>
-            <h4>Edit Course</h4>
-            <form id="editCourseForm">
-                <div class="form-group">
-                    <label for="editCourseName">Course Name</label>
-                    <input type="text" class="form-control" id="editCourseName" placeholder="Enter course name">
-                </div>
-                <div class="form-group">
-                    <label for="editCourseDesc">Course Description</label>
-                    <textarea class="form-control" id="editCourseDesc" rows="3" placeholder="Enter course description"></textarea>
-                </div>
-                <button type="button" class="btn btn-primary" onclick="updateCourse()">Edit Course</button>
-            </form>
-        </div>
+      <div class="modal-content">
+        <span class="close" onclick="closeModal('editCourseModal')"
+          >&times;</span
+        >
+        <h4>Edit Course</h4>
+        <form id="editCourseForm">
+          <div class="form-group">
+            <label for="editCourseName">Course Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="editCourseName"
+              placeholder="Enter course name"
+            />
+          </div>
+          <div class="form-group">
+            <label for="editCourseDesc">Course Description</label>
+            <textarea
+              class="form-control"
+              id="editCourseDesc"
+              rows="3"
+              placeholder="Enter course description"
+            ></textarea>
+          </div>
+          <button
+            type="button"
+            class="btn btn-primary"
+            onclick="updateCourse()"
+          >
+            Save Changes
+          </button>
+        </form>
+      </div>
     </div>
 
-    <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
     <script>
-        let actionType = '';
-        let courseId = '';
+      let actionType = "";
+      let courseId = "";
 
-        function openModal(modalType) {
-            document.getElementById(`${modalType}CourseModal`).style.display = "block";
-        }
+      function openPasswordModal(action) {
+        actionType = action;
+        $("#passwordModal").modal("show");
+      }
 
-        function closeModal(modalType) {
-            document.getElementById(`${modalType}CourseModal`).style.display = "none";
-        }
 
-        function authenticate(type, id) {
-            actionType = type;
-            courseId = id;
-            document.getElementById('passwordModal').style.display = 'block';
-        }
 
-        function validatePassword() {
-            const password = document.getElementById('password').value.trim();
-            const authBtn = document.getElementById('authBtn');
+      document
+        .getElementById("confirmAuthBtn")
+        .addEventListener("click", () => {
+          const password = document.getElementById("authPassword").value;
 
-            if (password) {
-                authBtn.classList.remove('btn-disabled');
-                authBtn.removeAttribute('disabled');
-            } else {
-                authBtn.classList.add('btn-disabled');
-                authBtn.setAttribute('disabled', true);
+          // Replace this with actual password verification API call
+          if (password === "correctPassword") {
+            // Simulating authentication success
+            $("#passwordModal").modal("hide");
+            document.getElementById("authError").classList.add("d-none");
+
+            if (actionType === "editCourse") {
+              $("#editCourseModal").modal("show");
+            } else if (actionType === "deleteCourse") {
+                deleteCourse(courseId);
             }
+          } else {
+            document.getElementById("authError").classList.remove("d-none");
+          }
+          document.getElementById("authPassword").value = "";
+        });
+
+
+
+      function openModal(modalId) {
+        document.getElementById(modalId).style.display = "block";
+      }
+
+      function closeModal(modalId) {
+        document.getElementById(modalId).style.display = "none";
+        document.getElementById(modalId).style.display = "none";
+
+      }
+
+    //   function validatePassword() {
+    //     const password = document.getElementById("password").value.trim();
+    //     document.getElementById("authBtn").disabled = !password;
+    //   }
+
+    //   function authenticateAction() {
+    //     const enteredPassword = document
+    //       .getElementById("password")
+    //       .value.trim();
+    //     const correctPassword = "123456";
+
+    //     if (enteredPassword === correctPassword) {
+    //       closeModal("passwordModal");
+    //       if (actionType === "edit") openModal("editCourseModal");
+    //       else if (actionType === "delete") deleteCourse(courseId);
+    //     } else alert("Incorrect password!");
+    //   }
+
+
+      function createCourse() {
+        const courseName = document.getElementById("courseName").value.trim();
+        const courseDesc = document.getElementById("courseDesc").value.trim();
+        if (courseName && courseDesc) {
+          alert(`New Course Created: ${courseName}`);
+          closeModal("createCourseModal");
         }
+      }
 
-        function authenticateAction() {
-            const enteredPassword = document.getElementById('password').value.trim();
-            const correctPassword = "123456"; // For demo, the correct password
 
-            if (enteredPassword === correctPassword) {
-                closeModal('password');
-
-                if (actionType === 'edit') {
-                    openModal('edit');
-                } else if (actionType === 'delete') {
-                    deleteCourse(courseId);
-                }
-            } else {
-                alert("Incorrect password!");
-            }
+      function updateCourse() {
+        const courseName = document
+          .getElementById("editCourseName")
+          .value.trim();
+        const courseDesc = document
+          .getElementById("editCourseDesc")
+          .value.trim();
+        if (courseName && courseDesc) {
+          alert(`Course Updated: ${courseName}`);
+          closeModal("editCourseModal");
         }
+      }
 
-        function deleteCourse(id) {
-            alert(`Course with ID ${id} has been deleted.`);
-            // Add logic to delete course from the database here
-        }
+      function deleteCourse(id) {
+        alert(`Course Deleted: ${id}`);
+      }
 
-        function updateCourse() {
-            const courseName = document.getElementById('editCourseName').value.trim();
-            const courseDesc = document.getElementById('editCourseDesc').value.trim();
-
-            if (courseName && courseDesc) {
-                alert(`Course updated: ${courseName} - ${courseDesc}`);
-                closeModal('edit');
-                // Add logic to update course details in the database here
-            } else {
-                alert("Please fill out all fields.");
-            }
-        }
+      function validateForm() {
+        const courseName = document.getElementById("courseName").value.trim();
+        const courseDesc = document.getElementById("courseDesc").value.trim();
+        const createBtn = document.getElementById("createCourseBtn");
+        createBtn.disabled = !(courseName && courseDesc);
+      }
     </script>
-</body>
+  </body>
 </html>
