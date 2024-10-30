@@ -167,6 +167,12 @@ async function updateCourse() {
     }
   }
 
+  function viewCourse(item){
+    courseId = item.dataset.id
+
+    window.location.href="./teacherCourse-details.html?courseId=${courseId}"
+  }
+
   
 function validateForm() {
   const courseName = document.getElementById("courseName").value.trim();
