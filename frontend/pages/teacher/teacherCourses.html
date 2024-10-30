@@ -117,7 +117,7 @@
     <!-- Sidebar -->
     <div id="sidebar">
       <h2>Teacher Dashboard</h2>
-      <a href="teacherHome.html"><i class="fas fa-home"></i> Home</a>
+      <a href="teacherHomepage.html"><i class="fas fa-home"></i> Home</a>
       <a href="teacherCourses.html" class="active"
         ><i class="fas fa-book"></i> Courses</a
       >
@@ -137,13 +137,13 @@
             <div class="course-actions">
               <button
                 class="btn btn-primary"
-                onclick="openPasswordModal('editCourse')"
+                onclick="openPasswordModal('editCourse', this)"
               >
                 Edit
               </button>
               <button
                 class="btn btn-danger"
-                onclick="openPasswordModal('deleteCourse')"
+                onclick="openPasswordModal('deleteCourse',this)"
               >
                 Delete
               </button>
@@ -299,104 +299,6 @@
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-    <script>
-      let actionType = "";
-      let courseId = "";
-
-      function openPasswordModal(action) {
-        actionType = action;
-        $("#passwordModal").modal("show");
-      }
-
-
-
-      document
-        .getElementById("confirmAuthBtn")
-        .addEventListener("click", () => {
-          const password = document.getElementById("authPassword").value;
-
-          // Replace this with actual password verification API call
-          if (password === "correctPassword") {
-            // Simulating authentication success
-            $("#passwordModal").modal("hide");
-            document.getElementById("authError").classList.add("d-none");
-
-            if (actionType === "editCourse") {
-              $("#editCourseModal").modal("show");
-            } else if (actionType === "deleteCourse") {
-                deleteCourse(courseId);
-            }
-          } else {
-            document.getElementById("authError").classList.remove("d-none");
-          }
-          document.getElementById("authPassword").value = "";
-        });
-
-
-
-      function openModal(modalId) {
-        document.getElementById(modalId).style.display = "block";
-      }
-
-      function closeModal(modalId) {
-        document.getElementById(modalId).style.display = "none";
-        document.getElementById(modalId).style.display = "none";
-
-      }
-
-    //   function validatePassword() {
-    //     const password = document.getElementById("password").value.trim();
-    //     document.getElementById("authBtn").disabled = !password;
-    //   }
-
-    //   function authenticateAction() {
-    //     const enteredPassword = document
-    //       .getElementById("password")
-    //       .value.trim();
-    //     const correctPassword = "123456";
-
-    //     if (enteredPassword === correctPassword) {
-    //       closeModal("passwordModal");
-    //       if (actionType === "edit") openModal("editCourseModal");
-    //       else if (actionType === "delete") deleteCourse(courseId);
-    //     } else alert("Incorrect password!");
-    //   }
-
-
-      function createCourse() {
-        const courseName = document.getElementById("courseName").value.trim();
-        const courseDesc = document.getElementById("courseDesc").value.trim();
-        if (courseName && courseDesc) {
-          alert(`New Course Created: ${courseName}`);
-          closeModal("createCourseModal");
-        }
-      }
-
-
-      function updateCourse() {
-        const courseName = document
-          .getElementById("editCourseName")
-          .value.trim();
-        const courseDesc = document
-          .getElementById("editCourseDesc")
-          .value.trim();
-        if (courseName && courseDesc) {
-          alert(`Course Updated: ${courseName}`);
-          closeModal("editCourseModal");
-        }
-      }
-
-      function deleteCourse(id) {
-        alert(`Course Deleted: ${id}`);
-      }
-
-      function validateForm() {
-        const courseName = document.getElementById("courseName").value.trim();
-        const courseDesc = document.getElementById("courseDesc").value.trim();
-        const createBtn = document.getElementById("createCourseBtn");
-        createBtn.disabled = !(courseName && courseDesc);
-      }
-    </script>
+<script src="teacherCourse.js"></script>
   </body>
 </html>
