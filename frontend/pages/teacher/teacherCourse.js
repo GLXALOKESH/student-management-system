@@ -170,7 +170,7 @@ async function updateCourse() {
   function viewCourse(item){
     courseId = item.dataset.id
 
-    window.location.href="./teacherCourse-details.html?courseId=${courseId}"
+    window.location.href="./teacherCourse-content.html?courseId=${courseId}"
   }
 
   

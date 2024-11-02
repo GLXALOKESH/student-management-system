@@ -7,78 +7,120 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <title>Teacher Dashboard</title>
     <style>
-        body {
-            display: flex;
-            height: 100vh;
-            margin: 0;
-            font-family: Arial, sans-serif;
-        }
-        #sidebar {
-            width: 250px;
-            background-color: #343a40;
-            color: white;
-            display: flex;
-            flex-direction: column;
-            padding: 10px;
-        }
-        #sidebar h2 {
-            color: #f8f9fa;
-            text-align: center;
-        }
-        #sidebar a {
-            color: white;
-            padding: 15px;
-            display: block;
-            text-decoration: none;
-            margin-bottom: 10px;
-        }
-        #sidebar a:hover {
-            background-color: #495057;
-        }
-        #sidebar .active {
-            background-color: #495057;
-        }
-        #content {
-            flex-grow: 1;
-            padding: 20px;
-            background-color: #f8f9fa;
-        }
-        #profile-section {
-            background-color: white;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .profile-item {
-            margin-bottom: 10px;
-        }
-        .profile-item strong {
-            display: inline-block;
-            width: 150px;
-        }
-        @media (max-width: 768px) {
-            #sidebar {
-                width: 100%;
-                height: auto;
-                display: block;
-            }
-            #content {
-                padding: 10px;
-            }
-        }
+    body {
+    display: flex;
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    flex-direction: row;
+}
+
+#sidebar {
+    width: 250px;
+    background-color: #343a40;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+#sidebar h2 {
+    color: #f8f9fa;
+    text-align: center;
+}
+
+#sidebar a {
+    color: white;
+    padding: 15px;
+    display: block;
+    text-decoration: none;
+    margin-bottom: 10px;
+}
+
+#sidebar a:hover {
+    background-color: #495057;
+}
+
+#content {
+    flex-grow: 1;
+    padding: 20px;
+    background-color: #f8f9fa;
+}
+
+#navbar {
+    display: none; /* Hidden by default, shown on mobile */
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #343a40;
+    color: white;
+}
+
+.navbar-menu {
+    display: none; /* Initially hidden */
+    flex-direction: column;
+    padding: 10px;
+    background-color: #343a40;
+    width: 100%;
+}
+
+.navbar-menu a {
+    color: white;
+    padding: 10px;
+    text-decoration: none;
+}
+
+.navbar-menu a:hover {
+    background-color: #495057;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    body {
+        flex-direction: column;
+    }
+    #sidebar {
+        display: none; /* Hide sidebar on small screens */
+    }
+    #navbar {
+        display: flex; /* Show navbar on small screens */
+        flex-direction: column;
+        padding: 0px;
+    }
+    #navbar .navbar-menu {
+        display: flex; /* Show the menu items in the navbar */
+        flex-direction: row;
+        padding: 0px;
+        align-items: center;
+        justify-content: center;
+    }
+}
+        /* Include the CSS from above here */
     </style>
 </head>
 <body>
     <!-- Sidebar -->
     <div id="sidebar">
         <h2>Teacher Dashboard</h2>
-        <a href="teacherHome.html" class="active"><i class="fas fa-home"></i> Home</a>
+        <a href="teacherHomepage.html" class="active"><i class="fas fa-home"></i> Home</a>
         <a href="teacherCourses.html"><i class="fas fa-book"></i> Courses</a>
         <a href="teacherSettings.html"><i class="fas fa-cog"></i> Settings</a>
     </div>
 
-    <!-- Content Section -->
+    <!-- Navbar for smaller screens -->
+    <div id="navbar">
+        <span>Teacher Dashboard</span>
+        <div class="navbar-menu" id="navbarMenu">
+            <a href="teacherHomepage.html" class="nav-link active"><i class="fas fa-home"></i> Home</a>
+            <a href=" teacherCourses.html" class="nav-link"><i class="fas fa-book"></i> Courses</a>
+            <a href="teacherSettings.html" class="nav-link"><i class="fas fa-cog"></i> Settings</a>
+        </div>
+    </div>
+
+    <!-- Content area -->
     <div id="content">
+      
         <h3>Welcome, Teacher</h3>
         <div id="profile-section">
             <h4>Your Profile</h4>
@@ -95,16 +137,18 @@
                 <strong>Courses Created:</strong> <span id="coursesCreated">Loading...</span>
             </div>
         </div>
+        <!-- Your content here -->
     </div>
 
-    <!-- Scripts -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+     document.addEventListener("DOMContentLoaded", function() {
             fetchTeacherData();
+
+            // Toggle Navbar Menu on small screens
+            document.getElementById("navbar-toggler").addEventListener("click", function() {
+                const menu = document.getElementById("navbarMenu");
+                menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+            });
         });
 
         async function fetchTeacherData() {

@@ -26,47 +26,41 @@
                 <label for="teacherPassword">Password:</label>
                 <input type="password" class="form-control" id="teacherPassword" required>
             </div>
-            <div class="form-group">
-                <label for="securityQuestion">Security Question:</label>
-                <select class="form-control" id="securityQuestion" required>
-                    <option value="">Select a Security Question</option>
-                    <option value="first_pet">What is your first pet's name?</option>
-                    <option value="birth_city">What city were you born in?</option>
-                    <option value="favorite_teacher">Who was your favorite teacher?</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="securityAnswer">Answer:</label>
-                <input type="text" class="form-control" id="securityAnswer" required>
-            </div>
             <button type="submit" class="btn btn-success btn-block">Sign Up</button>
         </form>
-        <p class="text-center mt-3"><a href="#">Already have an account? Login</a></p>
+        <p class="text-center mt-3"><a href="./teacherLogin.html">Already have an account? Login</a></p>
     </div>
 
     <script>
         document.getElementById('teacherSignupForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            const name = document.getElementById('teacherName').value;
+            const fullName = document.getElementById('teacherName').value;
+            
+            // Split fullname into first and last name
+            const nameParts = fullName.trim().split(" ");
+            const firstName = nameParts[0];
+            const lastName = nameParts.length > 1 ? nameParts.slice(1).join(" ") : "";
+            
             const email = document.getElementById('teacherEmail').value;
-            const phone = document.getElementById('teacherPhone').value;
+            const phone_number = document.getElementById('teacherPhone').value;
             const password = document.getElementById('teacherPassword').value;
-            const securityQuestion = document.getElementById('securityQuestion').value;
-            const securityAnswer = document.getElementById('securityAnswer').value;
+            const username = email.split('@')[0];
 
-            const userId = email.split('@')[0];
-
+            // Prepare data object for submission
             const signupData = {
-                name,
                 email,
-                phone,
                 password,
-                securityQuestion,
-                securityAnswer,
-                userId
+                user_type: "teacher",  // Corrected syntax
+                first_name: firstName, 
+                last_name: lastName,
+                username, 
+                phone_number
             };
+            
+            console.log(signupData);
 
+            // Send data to backend
             fetch('https://your-backend-api.com/teacherSignup', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
