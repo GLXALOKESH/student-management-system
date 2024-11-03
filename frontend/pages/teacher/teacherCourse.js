@@ -167,11 +167,12 @@ async function updateCourse() {
     }
   }
 
-  function viewCourse(item){
-    courseId = item.dataset.id
-
-    window.location.href="./teacherCourse-content.html?courseId=${courseId}"
-  }
+  function viewCourse(item) {
+    const courseId = item.closest("[data-id]").dataset.id;
+    console.log(courseId);
+    
+    window.location.href = `./teacherCourse-content.html?courseId=${courseId}`;
+}
 
   
 function validateForm() {

@@ -44,7 +44,7 @@ async function addVideo() {
     formData.append('video', videoFile);
 
 const thumbnailUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlO6Ov678e8Aq3pN3k0IjYBemzUcand4FQg3DslBIDrXGDElwWvkZ1q74&s=10"
-            addVideoToPage(videoTitle, thumbnailUrl);
+            addVideoToPage(videoTitle, thumbnailUrl,1);
 
             closeAddVideoForm();
 
@@ -61,7 +61,8 @@ const thumbnailUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlO6
 
             // Assuming backend returns thumbnail URL
             const thumbnailUrl = data.thumbnailUrl;
-            addVideoToPage(videoTitle, thumbnailUrl);
+            const id = data.lessonId
+            addVideoToPage(videoTitle, thumbnailUrl,id);
 
             closeAddVideoForm();
         } else {
@@ -73,15 +74,16 @@ const thumbnailUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlO6
 }
 
 // Function to add the video box to the page
-function addVideoToPage(title, thumbnailUrl) {
+function addVideoToPage(title, thumbnailUrl,id) {
     const contentDiv = document.getElementById('video-container');
 
     // Create new video box element
     const videoBox = document.createElement('div');
     videoBox.className = 'video-box';
-
+    videoBox.dataset.id = id
+  
     videoBox.innerHTML = `
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhKDrMYw24jug3H7V9roj-vd0JGWRNxZM0j9ZwnBbv127DAu3U6YSO-PN3&s=10" alt="Thumbnail" class="video-thumbnail">
+        <img src="${thumbnailUrl}" alt="Thumbnail" class="video-thumbnail" onclick="videoplayer(this)">
                 <div class="video-info">
                     <p class="video-title">${title}</p>
                     <div class="video-options">
@@ -97,4 +99,11 @@ function addVideoToPage(title, thumbnailUrl) {
 
     // Append the new video box to content
     contentDiv.appendChild(videoBox);
+}
+
+function videoplayer(item) {
+    const lessonId = item.closest("[data-id]").dataset.id;
+    console.log(lessonId);
+    
+    window.location.href = `./videoplayer.html?lessonId=${lessonId}&courseId=${courseId}`;
 }

@@ -49,6 +49,55 @@
         .setting-option:hover {
             background-color: #f0f0f0;
         }
+        #navbar {
+    display: none; /* Hidden by default, shown on mobile */
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #343a40;
+    color: white;
+}
+
+.navbar-menu {
+    display: none; /* Initially hidden */
+    flex-direction: column;
+    padding: 10px;
+    background-color: #343a40;
+    width: 100%;
+}
+
+.navbar-menu a {
+    color: white;
+    padding: 10px;
+    text-decoration: none;
+}
+
+.navbar-menu a:hover {
+    background-color: #495057;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    body {
+        flex-direction: column;
+    }
+    #sidebar {
+        display: none; /* Hide sidebar on small screens */
+    }
+    #navbar {
+        display: flex; /* Show navbar on small screens */
+        flex-direction: column;
+        padding: 0px;
+    }
+    #navbar .navbar-menu {
+        display: flex; /* Show the menu items in the navbar */
+        flex-direction: row;
+        padding: 0px;
+        align-items: center;
+        justify-content: center;
+    }
+}
     </style>
 </head>
 <body>
@@ -59,6 +108,17 @@
     <a href="studentCourses.html"><i class="fas fa-book"></i> Courses</a>
     <a href="studentSettings.html" class="active"><i class="fas fa-cog"></i> Settings</a>
 </div>
+
+    <div id="navbar">
+        <span>Teacher Dashboard</span>
+        <div class="navbar-menu" id="navbarMenu">
+            <a href="teacherHomepage.html" class="nav-link active"><i class="fas fa-home"></i> Home</a>
+            <a href=" teacherCourses.html" class="nav-link"><i class="fas fa-book"></i> Courses</a>
+            <a href="teacherSettings.html" class="nav-link"><i class="fas fa-cog"></i> Settings</a>
+        </div>
+    </div>
+
+
 
 <div id="content">
     <h3>Settings</h3>

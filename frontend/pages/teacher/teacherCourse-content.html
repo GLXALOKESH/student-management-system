@@ -119,15 +119,56 @@
             display: block;
         }
         
+        #navbar {
+    display: none; /* Hidden by default, shown on mobile */
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #343a40;
+    color: white;
+}
+
+.navbar-menu {
+    display: none; /* Initially hidden */
+    flex-direction: column;
+    padding: 10px;
+    background-color: #343a40;
+    width: 100%;
+}
+
+.navbar-menu a {
+    color: white;
+    padding: 10px;
+    text-decoration: none;
+}
+
+.navbar-menu a:hover {
+    background-color: #495057;
+}
+
+        
         /* Responsive Adjustments */
-        @media (max-width: 768px) {
-            body {
-                flex-direction: column;
-            }
-            #sidebar {
-                display: none;
-            }
-        }
+@media (max-width: 768px) {
+    body {
+        flex-direction: column;
+    }
+    #sidebar {
+        display: none; /* Hide sidebar on small screens */
+    }
+    #navbar {
+        display: flex; /* Show navbar on small screens */
+        flex-direction: column;
+        padding: 0px;
+    }
+    #navbar .navbar-menu {
+        display: flex; /* Show the menu items in the navbar */
+        flex-direction: row;
+        padding: 0px;
+        align-items: center;
+        justify-content: center;
+    }
+}
     </style>
 </head>
 <body>
@@ -138,6 +179,17 @@
         <a href="teacherCourses.html"><i class="fas fa-book"></i> Courses</a>
         <a href="teacherSettings.html"><i class="fas fa-cog"></i> Settings</a>
     </div>
+<!-- navbar area -->
+    <div id="navbar">
+        <span>Teacher Dashboard</span>
+        <div class="navbar-menu" id="navbarMenu">
+            <a href="teacherHomepage.html" class="nav-link active"><i class="fas fa-home"></i> Home</a>
+            <a href=" teacherCourses.html" class="nav-link"><i class="fas fa-book"></i> Courses</a>
+            <a href="teacherSettings.html" class="nav-link"><i class="fas fa-cog"></i> Settings</a>
+        </div>
+    </div>
+
+
 
     <!-- Content Area -->
     <div id="content">
@@ -153,39 +205,39 @@
 
         <!-- Video Section in Grid Layout -->
         <div class="video-container" id="video-container">
-            <div class="video-box">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhKDrMYw24jug3H7V9roj-vd0JGWRNxZM0j9ZwnBbv127DAu3U6YSO-PN3&s=10" alt="Thumbnail" class="video-thumbnail">
-                <div class="video-info">
-                    <p class="video-title">Sample Video Title That Might Be Long Enough To Be Truncated...</p>
-                    <div class="video-options">
-                        <i class="fas fa-ellipsis-v"></i>
-                        <div class="video-options-menu">
-                            <a href="#">Play Video</a>
-                            <a href="#">Edit Video</a>
-                            <a href="#">Delete Video</a>
-                        </div>
-                    </div>
-                </div>
+<!--             <div class="video-box">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhKDrMYw24jug3H7V9roj-vd0JGWRNxZM0j9ZwnBbv127DAu3U6YSO-PN3&s=10" alt="Thumbnail" class="video-thumbnail">
+    <div class="video-info">
+        <p class="video-title">Sample Video Title That Might Be Long Enough To Be Truncated...</p>
+        <div class="video-options">
+            <i class="fas fa-ellipsis-v"></i>
+            <div class="video-options-menu">
+                <a href="#">Play Video</a>
+                <a href="#">Edit Video</a>
+                <a href="#">Delete Video</a>
             </div>
-            
-            <div class="video-box">
-                <img src="thumbnail2.jpg" alt="Thumbnail" class="video-thumbnail">
-                <div class="video-info">
-                    <p class="video-title">Another Video Title That Might Exceed Two Lines And Be Truncated...</p>
-                    <div class="video-options">
-                        <i class="fas fa-ellipsis-v"></i>
-                        <div class="video-options-menu">
-                            <a href="#">Play Video</a>
-                            <a href="#">Edit Video</a>
-                            <a href="#">Delete Video</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        </div>
+    </div>
+</div>
 
+<div class="video-box">
+    <img src="thumbnail2.jpg" alt="Thumbnail" class="video-thumbnail">
+    <div class="video-info">
+        <p class="video-title">Another Video Title That Might Exceed Two Lines And Be Truncated...</p>
+        <div class="video-options">
+            <i class="fas fa-ellipsis-v"></i>
+            <div class="video-options-menu">
+                <a href="#">Play Video</a>
+                <a href="#">Edit Video</a>
+                <a href="#">Delete Video</a>
+            </div>
+        </div>
+    </div>
+</div>
+ -->
             <!-- Add more .video-box elements as needed -->
 <!-- Add Video Modal Form -->
-<div id="addVideoModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); justify-content: center; align-items: center;">
+<div id="addVideoModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); justify-content: center; align-items: center;z-index: 10;">
     <div style="background: white; padding: 20px; border-radius: 8px; width: 300px;">
         <h5>Add New Video</h5>
         <form id="addVideoForm">
