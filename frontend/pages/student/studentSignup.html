@@ -49,27 +49,29 @@
             e.preventDefault();
 
             const fullName = document.getElementById('studentName').value;
+            const nameParts = fullName.trim().split(" ");
+          const firstName = nameParts[0];
+          const lastName =
+            nameParts.length > 1 ? nameParts.slice(1).join(" ") : "";
             const email = document.getElementById('studentEmail').value;
-            const phone = document.getElementById('studentPhone').value;
-            const pasw = document.getElementById('studentPassword').value;
-            const secQs = document.getElementById('securityQuestion').value;
-            if(secQs == "00"){
-                alert("select a question")
-            }
-            const secQsAns = document.getElementById('securityAnswer').value;
+            const phone_number = document.getElementById('studentPhone').value;
+            const password = document.getElementById('studentPassword').value;
+            
+            
+            
 
             // Generate user ID from email (part before @)
-            const userId = email.split('@')[0];
+            const username = email.split('@')[0];
 
             // Data object to send
             const signupData = {
-                fullName,
+                first_name: firstName,
+            last_name: lastName,
+            user_type: "student",
                 email,
-                phone,
-                pasw,
-                secQs,
-                secQsAns,
-                userId
+                phone_number,
+                password,
+                username
             };
 
             // Send data to backend (replace URL with your backend endpoint)
@@ -79,7 +81,9 @@
                 body: JSON.stringify(signupData)
             })
             .then(response => response.json())
-            .then(data => console.log('Success:', data))
+            .then(data => {
+                 window.location.href ="./studentLogin.html"
+                console.log('Success:', data)})
             .catch((error) => console.error('Error:', error));
         });
     </script>
