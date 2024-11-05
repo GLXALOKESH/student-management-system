@@ -36,17 +36,31 @@
             };
 
             // Send data to backend (replace with your backend URL)
-            fetch('https://your-backend-api.com/teacherLogin', {
+            fetch('https://192.168.0.29:8090/api/auth/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(loginData)
             })
             .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-                // Add redirect or success handling here
+            .then((data) => {
+              console.log("Success:", data);
+
+              if (data.token) {
+                // Assuming the token is in data.token
+                // Set cookie with the token
+                document.cookie = `authToken=${data.token}; path=/; max-age=${
+                  60 * 60 * 24 * 9
+                }; Secure`;
+                // max-age is set to 24 hours, adjust as per the token's expiration
+
+                // Redirect or load content that requires authentication
+                window.location.href ="./teacherLogin.html"
+              } else {
+                console.error("No token received");
+              }
             })
-            .catch((error) => console.error('Error:', error));
+
+            .catch((error) => console.error("Error:", error));
         });
     </script>
 </body>
