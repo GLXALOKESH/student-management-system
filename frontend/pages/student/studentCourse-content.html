@@ -11,7 +11,7 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
     />
-    <title>Teacher Courses</title>
+    <title>Your Courses</title>
     <style>
       /* Styles for sidebar, content, modals, and buttons */
       body {
@@ -87,6 +87,25 @@
     background-color: #495057;
 }
 
+      #course-section {
+        background-color: white;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      .course-item {
+        padding: 15px;
+        border-bottom: 1px solid #ddd;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+      }
+      .course-item:last-child {
+        border-bottom: none;
+      }
+
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
     body {
@@ -113,7 +132,7 @@
   <body>
     <!-- Sidebar -->
     <div id="sidebar">
-      <h2>Teacher Dashboard</h2>
+      <h2>Student Courses</h2>
       <a href="studentHomepage.html"><i class="fas fa-home"></i> Home</a>
       <a href="studentCourses.html" class="active"
         ><i class="fas fa-book"></i> Courses</a
@@ -123,45 +142,36 @@
 
     <!-- Navbar for smaller screens -->
     <div id="navbar">
-        <span>Teacher Dashboard</span>
+        <span>Student Courses</span>
         <div class="navbar-menu" id="navbarMenu">
             <a href="studentHomepage.html" class="nav-link active"><i class="fas fa-home"></i> Home</a>
             <a href=" studentCourses.html" class="nav-link"><i class="fas fa-book"></i> Courses</a>
             <a href="studentSettings.html" class="nav-link"><i class="fas fa-cog"></i> Settings</a>
         </div>
     </div>
+    
 
     <!-- Content Section -->
     <div id="content">
-      <h3>Manage Your Courses</h3>
-      <div class="course-section" id="yourCourses">
-        <h4>Your Courses</h4>
-          </div>
-          <div class="course-section" id="enrollCourses">
-        <h4>Enroll A Course</h4>
-          </div>
+        <button  class="btn btn-secondary mb-4" style="margin-right:auto;" id="back">
+            <i class="fas fa-arrow-left"></i> 
+        </button>
+
+        <h3>Course Content</h3>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4>Lessons</h4>
+
         </div>
 
-
-    </div>
+        <!-- Video Section in Grid Layout -->
+        <div class="video-container" id="video-container">
 
       </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script>
-  
-  yourCourses  = document.getElementById("yourCourses") 
-  yourCourses.addEventListener('click', () =>{
-    window.location.href = "yourCourses.html"
-  })
-  
-  enrollCourses  = document.getElementById("enrollCourses") 
-  enrollCourses.addEventListener('click', () =>{
-    window.location.href = "enrollCourse.html"
-  })
-  
-</script>
+    <script src="studentCourse-content.js"></script>
+
   </body>
 </html>
