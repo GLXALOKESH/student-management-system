@@ -40,15 +40,15 @@
           e.preventDefault();
 
           const email = document.getElementById("studentEmail").value;
-          const pasw = document.getElementById("studentPassword").value;
+          const password = document.getElementById("studentPassword").value;
 
           const loginData = {
             email,
-            passsword,
+            password,
           };
 
           // Send data to backend (replace with your backend URL)
-          fetch("http://192.168.0.29:8090/api/v1/auth/student/login", {
+          fetch("http://192.168.0.29:8090/api/auth/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(loginData),
