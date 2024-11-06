@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    <title>Your Courses</title>
+    <style>
+      /* Styles for sidebar, content, modals, and buttons */
+      body {
+        display: flex;
+        height: 100vh;
+        margin: 0;
+        font-family: Arial, sans-serif;
+      }
+      #sidebar {
+        width: 250px;
+        background-color: #343a40;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+      }
+      #sidebar h2 {
+        color: #f8f9fa;
+        text-align: center;
+      }
+      #sidebar a {
+        color: white;
+        padding: 15px;
+        display: block;
+        text-decoration: none;
+        margin-bottom: 10px;
+      }
+      #sidebar a:hover,
+      #sidebar .active {
+        background-color: #495057;
+      }
+      #content {
+        flex-grow: 1;
+        padding: 20px;
+        background-color: #f8f9fa;
+        display: flex;
+        gap: 20px;
+        flex-direction: column;
+      }
+      .course-section {
+        background-color: white;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+      
+
+#navbar {
+    display: none; /* Hidden by default, shown on mobile */
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #343a40;
+    color: white;
+}
+
+.navbar-menu {
+    display: none; /* Initially hidden */
+    flex-direction: column;
+    padding: 10px;
+    background-color: #343a40;
+    width: 100%;
+}
+
+.navbar-menu a {
+    color: white;
+    padding: 10px;
+    text-decoration: none;
+}
+
+.navbar-menu a:hover {
+    background-color: #495057;
+}
+
+      #course-section {
+        background-color: white;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      .course-item {
+        padding: 15px;
+        border-bottom: 1px solid #ddd;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+      }
+      .course-item:last-child {
+        border-bottom: none;
+      }
+
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    body {
+        flex-direction: column;
+    }
+    #sidebar {
+        display: none; /* Hide sidebar on small screens */
+    }
+    #navbar {
+        display: flex; /* Show navbar on small screens */
+        flex-direction: column;
+        padding: 0px;
+    }
+    #navbar .navbar-menu {
+        display: flex; /* Show the menu items in the navbar */
+        flex-direction: row;
+        padding: 0px;
+        align-items: center;
+        justify-content: center;
+    }
+}
+    </style>
+  </head>
+  <body>
+    <!-- Sidebar -->
+    <div id="sidebar">
+      <h2>Student Courses</h2>
+      <a href="studentHomepage.html"><i class="fas fa-home"></i> Home</a>
+      <a href="studentCourses.html" class="active"
+        ><i class="fas fa-book"></i> Courses</a
+      >
+      <a href="studentSettings.html"><i class="fas fa-cog"></i> Settings</a>
+    </div>
+
+    <!-- Navbar for smaller screens -->
+    <div id="navbar">
+        <span>Student Courses</span>
+        <div class="navbar-menu" id="navbarMenu">
+            <a href="studentHomepage.html" class="nav-link active"><i class="fas fa-home"></i> Home</a>
+            <a href=" studentCourses.html" class="nav-link"><i class="fas fa-book"></i> Courses</a>
+            <a href="studentSettings.html" class="nav-link"><i class="fas fa-cog"></i> Settings</a>
+        </div>
+    </div>
+    
+
+    <!-- Content Section -->
+    <div id="content">
+      <button  class="btn btn-secondary mb-4" style="margin-right:auto;" id="back">
+            <i class="fas fa-arrow-left"></i> 
+        </button>
+<div id="course-section">
+        <h4>Your Courses</h4>
+
+        <!-- Dynamically Added Courses -->
+        <div id="course-list">    </div>
+    </div>
+
+      </div>
+    </div>
+    <script src="../../utility/functions.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+  
+  let courseId = "" ;
+//   listCourse()
+  function listCourse(){
+  // Fetch course data from backend
+  fetch(`${urlport}/api/courses/all-courses`)
+   .then(response => response.json())
+   .then(data => {
+      data.forEach(course => {
+        addCourse(course.course_id, course.course_name);
+      });
+    })
+   .catch(error => {
+      console.error("Error:", error);
+      alert("Failed to retrieve course list.");
+    });
+}
+function  viewCourse(item){
+  let sendId = item.closest("[data-id]").dataset.id
+  window.location.href = `./studentCourse-content.html?courseId=${sendId}`
+}
+
+// Function to dynamically add a course item
+function addCourse(courseId, title) {
+    const courseList = document.getElementById("course-list");
+    const courseItem = document.createElement("div");
+    
+    courseItem.className = "course-item";
+    courseItem.dataset.id = courseId;
+    courseItem.innerHTML = `<span onclick="viewCourse(this)">${title}</span>
+    <br>
+    <button
+                class="btn btn-primary"
+                onclick="openPasswordModal('editCourse', this)"
+              >
+                Enroll
+              </button>`;
+    
+    courseList.appendChild(courseItem);
+}
+
+function enrollCourse(courseId) {
+    let courseId = item.closest("[data-id]").dataset.id
+    // Fetch course data from backend
+    fetch(`${urlport}/api/courses/enroll-course/${courseId}`)
+   .then(response => response.json())
+   .then(data => {
+      console.log(data);
+      alert("Course enrolled successfully.");
+      listCourse();
+    })
+}
+// Call fetchCourses when the page loads
+document.addEventListener("DOMContentLoaded", listCourse());
+
+const back =document.getElementById('back')
+back.addEventListener('click', ()=>{
+  
+  window.location.href = `studentCourses.html`
+})
+</script>
+  </body>
+</html>

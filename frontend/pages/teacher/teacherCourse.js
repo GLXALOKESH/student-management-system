@@ -21,7 +21,7 @@ document.getElementById("confirmAuthBtn").addEventListener("click", () => {
   const sendData = { token, password };
   
   try {
-    fetch("http://192.168.0.29:8090/api/auth/validate-password", {
+    fetch(`${urlport}/api/auth/validate-password`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(sendData),
@@ -54,11 +54,16 @@ document.getElementById("confirmAuthBtn").addEventListener("click", () => {
  
 function openEditModal(id) {
     // Retrieve course details from backend
-    fetch(`https://your-backend-url.com/api/courses/${id}`)
+    fetch(`${urlport}/api/courses/get-course/${id}`,{
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ token }),
+    } )
       .then(response => response.json())
       .then(data => {
-        document.getElementById("editCourseName").value = data.name;
-        document.getElementById("editCourseDesc").value = data.description;
+        document.getElementById("editCourseName").value = data.course.course_name;
         $("#editCourseModal").modal("show");
       })
       .catch(error => {
@@ -80,7 +85,7 @@ function closeModal(modalId) {
 
 function listCourse(){
   // Fetch course data from backend
-  fetch("http://192.168.0.29:8090/api/courses/all-courses")
+  fetch(`${urlport}/api/courses/all-courses`)
    .then(response => response.json())
    .then(data => {
       data.forEach(course => {
@@ -115,7 +120,7 @@ async function sendCourseToBackend(courseName) {
   // const token = getCookie("authToken");
   if (token) {
   try {
-    const response = await fetch("http://192.168.0.29:8090/api/courses/new-course", {
+    const response = await fetch(`${urlport}/api/courses/new-course`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -166,10 +171,10 @@ async function updateCourse() {
   
     if (name) {
       try {
-        const response = await fetch(`https://your-backend-url.com/api/courses/${courseId}`, {
-          method: "PUT",
+        const response = await fetch(`${urlport}/api/courses/update-course`, {
+          method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name, description }),
+          body: JSON.stringify({ "data":{courseId, course_name:name}, token }),
         });
   
         if (!response.ok) throw new Error("Failed to update course.");
@@ -196,11 +201,14 @@ async function updateCourse() {
     console.log(token);
     
     try {
-      const response = await fetch(`http://192.168.0.29:8090/api/courses/delete-course/${id}`, {
+      const response = await fetch(`${urlport}/api/courses/delete-course/${id}`, {
         method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({ "token":token }),
       });
-  
+      
       if (!response.ok) throw new Error("Failed to delete course.");
   
       // Remove course item from the page

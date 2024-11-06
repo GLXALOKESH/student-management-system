@@ -4,4 +4,4 @@ function getCookie(name) {
     return null;
 }
 
-module.export = {getCookie}
+const urlport = "http://192.168.0.29:8090";
