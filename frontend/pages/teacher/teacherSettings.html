@@ -281,20 +281,7 @@
           const password = document.getElementById("authPassword").value;
           const token = getCookie("authToken");
           const sendData = { token, password };
-          // Replace this with actual password verification API call
-          // if (password === "correctPassword") { // Simulating authentication success
-          //     $('#passwordModal').modal('hide');
-          //     document.getElementById('authError').classList.add('d-none');
-
-          //     if (actionType === 'editProfile') {
-          //         $('#editProfileModal').modal('show');
-          //     } else if (actionType === 'deleteAccount') {
-          //         deleteAccount();
-          //     }
-          // } else {
-          //     document.getElementById('authError').classList.remove('d-none');
-          // }
-          // document.getElementById('authPassword').value = ""
+          
           try {
             fetch("http://192.168.0.29:8090/api/auth/validate-password", {
               method: "POST",
@@ -320,7 +307,10 @@
                 }
                 document.getElementById("authPassword").value = "";
               });
-          } catch (error) {}
+          } catch (error) {
+            console.error("Error validating password:", error);
+            alert("Failed to authenticate. Please try again later.");
+          }
         });
 
       function saveProfile() {

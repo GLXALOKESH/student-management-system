@@ -189,13 +189,13 @@
 
     <!-- Content Section -->
     <div id="content">
-      <h3>Manage Your Courses</h3>
+      <h3>Manage Courses</h3>
       <div id="course-section">
-        <h4>Your Courses</h4>
+        <h4>All Courses</h4>
 
         <!-- Dynamically Added Courses -->
         <div id="course-list">
-          <div class="course-item" data-id="1" >
+          <!-- <div class="course-item" data-id="1" >
             <span onclick="viewCourse(this)">Course 1: Introduction to Programming</span>
             <div class="course-actions">
               <button
@@ -211,7 +211,7 @@
                 Delete
               </button>
             </div>
-          </div>
+          </div> -->
         </div>
 
         <!-- Create Course Button -->
@@ -244,16 +244,7 @@
               oninput="validateForm()"
             />
           </div>
-          <div class="form-group">
-            <label for="courseDesc">Course Description</label>
-            <textarea
-              class="form-control"
-              id="courseDesc"
-              rows="3"
-              placeholder="Enter course description"
-              oninput="validateForm()"
-            ></textarea>
-          </div>
+          
           <button
             type="button"
             class="btn btn-success btn-disabled"
