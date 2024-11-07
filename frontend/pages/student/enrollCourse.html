@@ -171,6 +171,7 @@
 <script>
   
   let courseId = "" ;
+  let token = getCookie("authToken");
 //   listCourse()
   function listCourse(){
   // Fetch course data from backend
@@ -213,12 +214,24 @@ function addCourse(courseId, title) {
 function enrollCourse(item) {
      courseId = item.closest("[data-id]").dataset.id
     // Fetch course data from backend
-    fetch(`${urlport}/api/courses/enroll-course/${courseId}`)
+    fetch(`${urlport}/api/courses/buy-new-course`,{
+  method: 'POST',
+  headers: {  
+    'Content-Type': 'application/json',
+  },
+  body:  JSON.stringify({"token":token,"data":{courseId: courseId  }  })
+    })
    .then(response => response.json())
    .then(data => {
-      console.log(data);
-      alert("Course enrolled successfully.");
-      listCourse();
+      // console.log(data);
+      if(data.status === true){
+        // Navigate to your courses page
+        window.location.href = `./yourCourses.html`
+        alert("Course enrolled successfully.");
+      }else{
+        alert(data.message);
+      }
+      
     })
 }
 // Call fetchCourses when the page loads
