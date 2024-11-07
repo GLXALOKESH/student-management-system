@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <title>Course Content</title>
+    <script src="../authorization.js"></script>
+    <style>
+        /* General Styling */
+        body {
+            display: flex;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            flex-direction: row;
+        }
+
+        #sidebar {
+            width: 250px;
+            background-color: #343a40;
+            color: white;
+            padding: 10px;
+        }
+
+        #sidebar h2 {
+            color: #f8f9fa;
+            text-align: center;
+        }
+
+        #sidebar a {
+            color: white;
+            padding: 15px;
+            display: block;
+            text-decoration: none;
+            margin-bottom: 10px;
+        }
+
+        #content {
+            flex-grow: 1;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+
+        /* Grid Styling for Video Section */
+        .video-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            place-items: center ;
+        }
+
+        .video-box {
+            position: relative;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: visible;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 400px;
+        }
+
+        .video-thumbnail {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .video-info {
+            padding: 10px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .video-title {
+            flex-grow: 1;
+            font-size: 16px;
+            font-weight: bold;
+            margin: 0;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            text-overflow: ellipsis;
+            white-space: normal;
+        }
+
+        /* Dropdown Menu Styling */
+        .video-options {
+            position: relative;
+        }
+
+        .video-options i {
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .video-options-menu {
+            position: absolute;
+            top: 25px;
+            right: 0;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            display: none;
+            width: 120px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .video-options:hover .video-options-menu {
+            display: block;
+        }
+        
+        #navbar {
+    display: none; /* Hidden by default, shown on mobile */
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #343a40;
+    color: white;
+}
+
+.navbar-menu {
+    display: none; /* Initially hidden */
+    flex-direction: column;
+    padding: 10px;
+    background-color: #343a40;
+    width: 100%;
+}
+
+.navbar-menu a {
+    color: white;
+    padding: 10px;
+    text-decoration: none;
+}
+
+.navbar-menu a:hover {
+    background-color: #495057;
+}
+
+        
+        /* Responsive Adjustments */
+@media (max-width: 768px) {
+    body {
+        flex-direction: column;
+    }
+    #sidebar {
+        display: none; /* Hide sidebar on small screens */
+    }
+    #navbar {
+        display: flex; /* Show navbar on small screens */
+        flex-direction: column;
+        padding: 0px;
+    }
+    #navbar .navbar-menu {
+        display: flex; /* Show the menu items in the navbar */
+        flex-direction: row;
+        padding: 0px;
+        align-items: center;
+        justify-content: center;
+    }
+}
+    </style>
+</head>
+<body>
+   <!-- Sidebar -->
+   <div id="sidebar">
+    <h2>Admin Dashboard</h2>
+    <a href="adminHomepage.html" ><i class="fas fa-home"></i> Home</a>
+    <a href="adminCourses.html " ><i class="fas fa-book"></i> Manage Courses</a>
+    <a href="adminSettings.html"><i class="fas fa-cog"></i> Settings</a>
+</div>
+<!-- navbar area -->
+    <div id="navbar">
+        <span>admin Dashboard</span>
+        <div class="navbar-menu" id="navbarMenu">
+            <a href="adminHomepage.html" class="nav-link active"><i class="fas fa-home"></i> Home</a>
+            <a href=" adminCourses.html" class="nav-link"><i class="fas fa-book"></i> Courses</a>
+            <a href="adminSettings.html" class="nav-link"><i class="fas fa-cog"></i> Settings</a>
+        </div>
+    </div>
+
+
+
+    <!-- Content Area -->
+    <div id="content">
+        <button onclick="window.location.href='adminCourses.html'" class="btn btn-secondary mb-4">
+            <i class="fas fa-arrow-left"></i> Back to Courses
+        </button>
+
+        <h3>Course Content</h3>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4>Lessons</h4>
+           
+        </div>
+
+        <!-- Video Section in Grid Layout -->
+        <div class="video-container" id="video-container">
+<!--      
+            <!-- Add more .video-box elements as needed -->
+
+
+        </div>
+    </div>
+    <script src="../../utility/functions.js"></script>
+<script src="course-content.js"></script>
+</body>
+</html>

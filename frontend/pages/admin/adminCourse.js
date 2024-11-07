@@ -116,54 +116,7 @@ function addCourseToPage(courseId, courseName) {
   document.getElementById("course-list").appendChild(courseItem);
 }
 
-// Function to send course details to the backend
-async function sendCourseToBackend(courseName) {
-  // const token = getCookie("authToken");
-  if (token) {
-  try {
-    const response = await fetch(`${urlport}/api/courses/new-course`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({data:{ course_name: courseName}, token}),
-    });
-      
-    if (!response.ok) throw new Error("Failed to save course to backend");
 
-    const data = await response.json(); // Backend should respond with the new course ID
-    console.log(data);
-    
-    return data.course.course_id; // Assuming response structure: { courseId: 123 }
-  } catch (error) {
-    console.error("Error:", error);
-    alert("Failed to save course. Please try again.");
-    return null;
-  }
-}
-else{
-  alert("You are not authenticated. Please login.");
-  return null;
-}
-}
-
-async function createCourse() {
-  const courseName = document.getElementById("courseName").value.trim();
-
-  if (courseName) {
-    // Save course to backend
-    const courseId = await sendCourseToBackend(courseName);
-    // const courseId = 123; 
-
-    
-    if (courseId) {
-      // Dynamically add course to the page if backend save was successful
-      addCourseToPage(courseId, courseName);
-      document.getElementById("courseName").value = ""; // Clear input field
-      closeModal("createCourseModal"); // Close modal after course creation
-    }
-  }
-}
 
 async function updateCourse() {
     const name = document.getElementById("editCourseName").value.trim();
@@ -225,7 +178,7 @@ async function updateCourse() {
     const courseId = item.closest("[data-id]").dataset.id;
     console.log(courseId);
     
-    window.location.href = `./teacherCourse-content.html?courseId=${courseId}`;
+    window.location.href = `./course-content.html?courseId=${courseId}`;
 }
 
   
