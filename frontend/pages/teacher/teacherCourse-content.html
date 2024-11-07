@@ -253,6 +253,14 @@
                 <label for="videoFile">Video File:</label>
                 <input type="file" id="videoFile" class="form-control" accept="video/*" required>
             </div>
+            <div class="form-group">
+                <label for="VideoNo">Lesson No.:</label>
+                <input type="text" id="videoNo" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="videoDesc">Description:</label>
+                <input type="text" id="videoDesc" class="form-control" required>
+            </div>
             <button type="button" class="btn btn-primary" onclick="addVideo()">Add Video</button>
             <button type="button" class="btn btn-secondary" onclick="closeAddVideoForm()">Cancel</button>
         </form>
@@ -260,6 +268,7 @@
 </div>
         </div>
     </div>
+    <script src="../../utility/functions.js"></script>
 <script src="teacherCourse-content.js"></script>
 </body>
 </html>

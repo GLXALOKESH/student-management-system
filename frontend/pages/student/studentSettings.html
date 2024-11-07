@@ -110,11 +110,11 @@
 </div>
 
     <div id="navbar">
-        <span>Teacher Dashboard</span>
+        <span>Settings</span>
         <div class="navbar-menu" id="navbarMenu">
-            <a href="teacherHomepage.html" class="nav-link active"><i class="fas fa-home"></i> Home</a>
-            <a href=" teacherCourses.html" class="nav-link"><i class="fas fa-book"></i> Courses</a>
-            <a href="teacherSettings.html" class="nav-link"><i class="fas fa-cog"></i> Settings</a>
+            <a href="studentHomepage.html" class="nav-link active"><i class="fas fa-home"></i> Home</a>
+            <a href="studentCourses.html" class="nav-link"><i class="fas fa-book"></i> Courses</a>
+            <a href="studentSettings.html" class="nav-link"><i class="fas fa-cog"></i> Settings</a>
         </div>
     </div>
 
@@ -177,76 +177,133 @@
         </div>
     </div>
 </div>
-
+<script src="../../utility/functions.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
-    let actionType = '';
+    let actionType = "";
 
     function openPasswordModal(action) {
-        actionType = action;
-        $('#passwordModal').modal('show');
+      actionType = action;
+      $("#passwordModal").modal("show");
     }
 
-    document.getElementById('confirmAuthBtn').addEventListener('click', () => {
-        const password = document.getElementById('authPassword').value;
-
-        // Replace this with actual password verification API call
-        if (password === "correctPassword") { // Simulating authentication success
-            $('#passwordModal').modal('hide');
-            document.getElementById('authError').classList.add('d-none');
-            
-            if (actionType === 'editProfile') {
-                $('#editProfileModal').modal('show');
-            } else if (actionType === 'deleteAccount') {
-                deleteAccount();
-            }
-        } else {
-            document.getElementById('authError').classList.remove('d-none');
-        }
-        document.getElementById('authPassword').value = ""
-    });
-
-    function saveProfile() {
-        const fullName = document.getElementById('editFullName').value;
-        const email = document.getElementById('editEmail').value;
-        const phone = document.getElementById('editPhone').value;
-
-        // Send updated data to the backend
-        // Sample POST request (adjust URL and data structure as needed)
-        fetch("https://your-backend-url.com/student/update-profile", {
+    document
+      .getElementById("confirmAuthBtn")
+      .addEventListener("click", () => {
+        const password = document.getElementById("authPassword").value;
+        const token = getCookie("authToken");
+        const sendData = { token, password };
+        
+        try {
+          fetch("http://192.168.0.29:8090/api/auth/validate-password", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ fullName, email, phone })
+            body: JSON.stringify(sendData),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              console.log(data);
+
+              if (data?.message == "Password is valid") {
+                $("#passwordModal").modal("hide");
+                document.getElementById("authError").classList.add("d-none");
+                if (actionType === "editProfile") {
+                  $("#editProfileModal").modal("show");
+                } else if (actionType === "deleteAccount") {
+                  deleteAccount();
+                }
+              } else {
+                document
+                  .getElementById("authError")
+                  .classList.remove("d-none");
+              }
+              document.getElementById("authPassword").value = "";
+            });
+        } catch (error) {
+          console.error("Error validating password:", error);
+          alert("Failed to authenticate. Please try again later.");
+        }
+      });
+
+    function saveProfile() {
+      const fullName = document.getElementById("editFullName").value;
+      const email = document.getElementById("editEmail").value;
+      const phone = document.getElementById("editPhone").value;
+      const token = getCookie("authToken");
+      // Split fullName into firstName and lastName
+      let [firstName, ...lastNameArray] = fullName.split(" ");
+      let lastName = lastNameArray.join(" ");
+
+      // Initialize data object
+      const data = {};
+
+      // Only add non-empty fields to the data object
+      if (firstName) data.first_name = firstName;
+      if (lastName) data.last_name = lastName;
+      if (email) data.email = email;
+      if (phone) data.phone_number = phone;
+      // Send updated data to the backend
+      // Sample POST request (adjust URL and data structure as needed)
+      fetch("http://192.168.0.29:8090/api/auth/update-profile", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ data, token }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          document.getElementById("editFullName").value = " ";
+          document.getElementById("editEmail").value = " ";
+          document.getElementById("editPhone").value = " ";
+          alert("Profile updated successfully!");
+          $("#editProfileModal").modal("hide");
         })
-        .then(response => response.json())
-        .then(data => {
-            alert("Profile updated successfully!");
-            $('#editProfileModal').modal('hide');
-        })
-        .catch(error => console.error("Error updating profile:", error));
+        .catch((error) => console.error("Error updating profile:", error));
     }
 
     function deleteAccount() {
-        // Sample DELETE request to delete the account
-        fetch("https://your-backend-url.com/student/delete-account", {
-            method: "DELETE",
-            headers: { "Content-Type": "application/json" }
+      // Sample DELETE request to delete the account
+      const responceGet = fetch("http://192.168.0.29:8090/api/auth/delete-account", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token: getCookie("authToken") }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          
+          clearCookies();
+          alert("Account deleted successfully.");
+          // Redirect to homepage or login
+          
+          window.location.href = "../landing.html";
         })
-        .then(response => response.json())
-        .then(data => {
-            alert("Account deleted successfully.");
-            // Redirect to homepage or login
-            window.location.href = "/login.html";
-        })
-        .catch(error => console.error("Error deleting account:", error));
+        .catch((error) => console.error("Error deleting account:", error));
     }
 
     function logout() {
-        // Sample logout action
-        alert("Logged out successfully.");
-        window.location.href = "../landing.html";
+      // Sample logout action
+      clearCookies();
+      alert("Logged out successfully.");
+      window.location.href = "../landing.html";
     }
-</script>
+    function getCookie(name) {
+      const match = document.cookie.match(
+        new RegExp("(^| )" + name + "=([^;]+)")
+      );
+      if (match) return match[2];
+      return null;
+    }
+    function clearCookies() {
+  // Get all cookies
+  const cookies = document.cookie.split(";");
+
+  // Loop through and delete each cookie by setting its expiration date to the past
+  cookies.forEach(cookie => {
+      const name = cookie.split("=")[0].trim();
+      document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+  });
+}
+  </script>
 </body>
 </html>

@@ -56,6 +56,10 @@
             display: inline-block;
             width: 150px;
         }
+        #manageUsers {
+            cursor: pointer;  
+            color: #343a40;
+        }
         @media (max-width: 768px) {
             #sidebar {
                 width: 100%;
@@ -66,6 +70,7 @@
                 padding: 10px;
             }
         }
+
     </style>
 </head>
 <body>
@@ -81,22 +86,16 @@
     <div id="content">
         <h3>Welcome, Admin</h3>
         <div id="profile-section">
-            <h4>Your Profile</h4>
-            <div class="profile-item">
-                <strong>Full Name:</strong> Admin User
-            </div>
-            <div class="profile-item">
-                <strong>Email:</strong> admin@admin.com
-            </div>
-            <div class="profile-item">
-                <strong>Phone:</strong> 112-233-4455
-            </div>
-            <div class="profile-item">
-                <strong>Managed Users:</strong> 150
-            </div>
-            <div class="profile-item">
-                <strong>Courses Managed:</strong> 20
-            </div>
+            <div>Total Courses :</div   >
+            <div>Total Users :</div >
+            <div>Total Teachers :</div  >
+            <div>Total Students :</div  >
+
+
+        </div>
+        <br>
+        <div id="profile-section">
+            <div id="manageUsers">Manage Users</div>
         </div>
     </div>
 

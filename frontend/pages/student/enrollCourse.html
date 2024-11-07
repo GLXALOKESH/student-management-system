@@ -157,7 +157,7 @@
             <i class="fas fa-arrow-left"></i> 
         </button>
 <div id="course-section">
-        <h4>Your Courses</h4>
+        <h4>All Courses</h4>
 
         <!-- Dynamically Added Courses -->
         <div id="course-list">    </div>
@@ -211,7 +211,7 @@ function addCourse(courseId, title) {
 }
 
 function enrollCourse(courseId) {
-    let courseId = item.closest("[data-id]").dataset.id
+     courseId = item.closest("[data-id]").dataset.id
     // Fetch course data from backend
     fetch(`${urlport}/api/courses/enroll-course/${courseId}`)
    .then(response => response.json())
@@ -227,7 +227,7 @@ document.addEventListener("DOMContentLoaded", listCourse());
 const back =document.getElementById('back')
 back.addEventListener('click', ()=>{
   
-  window.location.href = `studentCourses.html`
+  window.location.href = `./studentCourses.html`
 })
 </script>
   </body>

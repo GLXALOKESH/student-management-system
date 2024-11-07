@@ -102,7 +102,8 @@ function addCourseToPage(courseId, courseName) {
   const courseItem = document.createElement("div");
   courseItem.className = "course-item";
   courseItem.setAttribute("data-id", courseId); // Use the course ID from backend response
-
+  
+  courseItem.setAttribute("onclick","viewCourse(this)")
   courseItem.innerHTML = `
       <span>${courseName}</span>
       <div class="course-actions">

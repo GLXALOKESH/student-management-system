@@ -2,27 +2,48 @@ const urlParams = new URLSearchParams(window.location.search)
 
 const courseId = urlParams.get("courseId")
 
-console.log(courseId)
-// Fetch course details from the backend
-if (courseId) {
-  fetch(`/api/getCourseContent`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ courseId: courseId })
-  })
-  .then(response => response.json())
-  .then(data => {
-    // Render course material on the page
-    // document.getElementById('course-content').innerHTML = data.content;
-  })
-  .catch(error => console.error('Error fetching course content:', error));
-}
+const token = getCookie("authToken")
+// console.log(courseId)
+listVideos()
+//   fetch(`/api/getCourseContent`, {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json'
+//     },
+//     body: JSON.stringify({ courseId: courseId })
+//   })
+//   .then(response => response.json())
+//   .then(data => {
+//     // Render course material on the page
+//     // document.getElementById('course-content').innerHTML = data.content;
+//   })
+//   .catch(error => console.error('Error fetching course content:', error));
+// }
 
 // Show the Add Video modal form
 function showAddVideoForm() {
     document.getElementById('addVideoModal').style.display = 'flex';
+}
+
+function listVideos() {
+    // Fetch video list from the backend
+    fetch(`${urlport}/api/courses/get-course-lessons`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ "courseId": courseId , "token": token  })
+    })
+   .then(response => response.json())  
+   .then(data => {
+    console.log(data);
+    
+    // Render video list on the page
+        data.lessons.map(video => {
+            addVideoToPage(video.lesson_name, video.image1, video.lesson_id);
+        });
+ 
+   }) 
 }
 
 // Close the Add Video modal form
@@ -36,32 +57,52 @@ async function addVideo() {
     const videoTitle = document.getElementById('videoTitle').value;
     const videoThumbnail = document.getElementById('videoThumbnail').files[0];
     const videoFile = document.getElementById('videoFile').files[0];
+    const videoDesc =  document.getElementById('videoDesc').value;
+    const videoNo =  document.getElementById('videoNo').value;
+
+
 
     // Create form data to send to the backend
     const formData = new FormData();
-    formData.append('title', videoTitle);
-    formData.append('thumbnail', videoThumbnail);
+    // formData.append('lesson_name', videoTitle);
+    // formData.append('image1', videoThumbnail);
+    // formData.append('video', videoFile);
+
+    formData.append('token', token);
+    formData.append('data', JSON.stringify({
+        courseId: courseId,
+        lesson_name: videoTitle,
+        lesson_num: videoNo,
+        lesson_details: videoDesc
+    }));
+    formData.append('image1', videoThumbnail);
     formData.append('video', videoFile);
+    
 
-const thumbnailUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlO6Ov678e8Aq3pN3k0IjYBemzUcand4FQg3DslBIDrXGDElwWvkZ1q74&s=10"
-            addVideoToPage(videoTitle, thumbnailUrl,1);
 
-            closeAddVideoForm();
+    // console.log(formData);
+    
+// const thumbnailUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlO6Ov678e8Aq3pN3k0IjYBemzUcand4FQg3DslBIDrXGDElwWvkZ1q74&s=10"
+            // addVideoToPage(videoTitle, thumbnailUrl,1);
+
+            // closeAddVideoForm();
 
 
     try {
         // Send form data to the backend
-        const response = await fetch('/upload-video', {
+        const response = await fetch(`${urlport}/api/courses/upload-new-lesson`, {
             method: 'POST',
             body: formData
         });
         
         if (response.ok) {
             const data = await response.json();
-
+            console.log(data);
+            
             // Assuming backend returns thumbnail URL
-            const thumbnailUrl = data.thumbnailUrl;
-            const id = data.lessonId
+            const thumbnailUrl = data.lesson.image1
+            ;
+            const id = data.lesson.lesson_id
             addVideoToPage(videoTitle, thumbnailUrl,id);
 
             closeAddVideoForm();
