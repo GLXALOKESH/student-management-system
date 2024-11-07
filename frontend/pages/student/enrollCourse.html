@@ -202,7 +202,7 @@ function addCourse(courseId, title) {
     <br>
     <button
                 class="btn btn-primary"
-                onclick="openPasswordModal('editCourse', this)"
+                onclick="enrollCourse(this)"
               >
                 Enroll
               </button>`;
@@ -210,7 +210,7 @@ function addCourse(courseId, title) {
     courseList.appendChild(courseItem);
 }
 
-function enrollCourse(courseId) {
+function enrollCourse(item) {
      courseId = item.closest("[data-id]").dataset.id
     // Fetch course data from backend
     fetch(`${urlport}/api/courses/enroll-course/${courseId}`)

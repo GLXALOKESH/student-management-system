@@ -57,17 +57,15 @@ async function addVideo() {
     const videoTitle = document.getElementById('videoTitle').value;
     const videoThumbnail = document.getElementById('videoThumbnail').files[0];
     const videoFile = document.getElementById('videoFile').files[0];
-    const videoDesc =  document.getElementById('videoDesc').value;
-    const videoNo =  document.getElementById('videoNo').value;
+    const videoDesc = document.getElementById('videoDesc').value;
+    const videoNo = document.getElementById('videoNo').value;
 
-
+    // Optional: Rename files if needed
+    const renamedVideoFile = new File([videoFile], `custom_video_${Date.now()}${generateRandomString(12)}.mp4`, { type: videoFile.type });
+    const renamedThumbnail = new File([videoThumbnail], `custom_thumbnail_${Date.now()}${generateRandomString(12)}.jpg`, { type: videoThumbnail.type });
 
     // Create form data to send to the backend
     const formData = new FormData();
-    // formData.append('lesson_name', videoTitle);
-    // formData.append('image1', videoThumbnail);
-    // formData.append('video', videoFile);
-
     formData.append('token', token);
     formData.append('data', JSON.stringify({
         courseId: courseId,
@@ -75,18 +73,10 @@ async function addVideo() {
         lesson_num: videoNo,
         lesson_details: videoDesc
     }));
-    formData.append('image1', videoThumbnail);
-    formData.append('video', videoFile);
+    formData.append('image1', renamedThumbnail); // Add renamed thumbnail
+    formData.append('video', renamedVideoFile); // Add renamed video
+
     
-
-
-    // console.log(formData);
-    
-// const thumbnailUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlO6Ov678e8Aq3pN3k0IjYBemzUcand4FQg3DslBIDrXGDElwWvkZ1q74&s=10"
-            // addVideoToPage(videoTitle, thumbnailUrl,1);
-
-            // closeAddVideoForm();
-
 
     try {
         // Send form data to the backend
@@ -94,16 +84,15 @@ async function addVideo() {
             method: 'POST',
             body: formData
         });
-        
+
         if (response.ok) {
             const data = await response.json();
             console.log(data);
-            
-            // Assuming backend returns thumbnail URL
-            const thumbnailUrl = data.lesson.image1
-            ;
-            const id = data.lesson.lesson_id
-            addVideoToPage(videoTitle, thumbnailUrl,id);
+
+            // Assuming backend returns thumbnail URL and lesson ID
+            const thumbnailUrl = data.lesson.image1;
+            const id = data.lesson.lesson_id;
+            addVideoToPage(videoTitle, thumbnailUrl, id);
 
             closeAddVideoForm();
         } else {
@@ -114,6 +103,17 @@ async function addVideo() {
     }
 }
 
+function generateRandomString(length) {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+
+    for (let i = 0; i < length; i++) {
+        const randomIndex = Math.floor(Math.random() * characters.length);
+        result += characters[randomIndex];
+    }
+
+    return result;
+}
 // Function to add the video box to the page
 function addVideoToPage(title, thumbnailUrl,id) {
     const contentDiv = document.getElementById('video-container');

@@ -103,9 +103,9 @@ function addCourseToPage(courseId, courseName) {
   courseItem.className = "course-item";
   courseItem.setAttribute("data-id", courseId); // Use the course ID from backend response
   
-  courseItem.setAttribute("onclick","viewCourse(this)")
+  // courseItem.setAttribute("onclick","viewCourse(this)")
   courseItem.innerHTML = `
-      <span>${courseName}</span>
+      <span onclick="viewCourse(this)">${courseName}</span>
       <div class="course-actions">
         <button class="btn btn-primary" onclick="openPasswordModal('editCourse', this)">Edit</button>
         <button class="btn btn-danger" onclick="openPasswordModal('deleteCourse', this)">Delete</button>

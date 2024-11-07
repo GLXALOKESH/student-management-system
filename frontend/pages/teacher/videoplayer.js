@@ -3,6 +3,7 @@ const urlParams = new URLSearchParams(window.location.search)
 
 const lessonId = urlParams.get("lessonId")
 const courseId = urlParams.get("courseId")
+const token = getCookie("authToken")
 console.log(lessonId)
 console.log(courseId)
 
@@ -16,9 +17,27 @@ function loadVideo(videoUrl, title) {
     videoTitle.textContent = title;
 }
 
+function fetchVideo(){
+  fetch(`${urlport}/api/courses/get-lesson/${lessonId}`,{
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ "token": token })
+  })
+   .then(response => response.json())
+   .then(data => {
+    console.log(data);
+    
+      const videoUrl = data.lesson.video_url
+      const title = data.lesson.lesson_name
+      loadVideo(videoUrl, title)
+   })
+   .catch(error => console.error('Error:', error));
+}
 // Example usage:
 // Replace 'sample.mp4' with the URL of your video file and 'Sample Video Title' with the actual title
-loadVideo('https://res.cloudinary.com/dwb1jtrym/video/upload/v1730607873/usr3xyt1pe04skdgigcz.mp4', 'Sample Video Title');
+fetchVideo()
 const back =document.getElementById('back')
 back.addEventListener('click', ()=>{
   
