@@ -171,21 +171,35 @@
 <script>
   
   let courseId = "" ;
+let token = getCookie("authToken");
+
 function  viewCourse(item){
   let sendId = item.closest("[data-id]").dataset.id
   window.location.href = `./studentCourse-content.html?courseId=${sendId}`
 }
   // Function to fetch course data
 function fetchCourses() {
-    // Simulating fetching course data; replace with actual API call if needed
-    const courses = [
-        { courseId: "1", title: "Introduction to Programming" },
-        { courseId: "2", title: "Data Structures" },
-        { courseId: "3", title: "Web Development" }
-    ];
+  fetch(`${urlport}/api/courses/student-enrolled-courses`,{
+    method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({token:token}),
+  })
+   .then(response => response.json())
+   .then(data => {
+    console.log(data);
+    
+      data.courses.forEach(course => addCourse(course.course_id, course.course_name));
+    })
+   .catch(error => {
+      console.error("Error:", error);
+      alert("Failed to retrieve course list.");
+    });
+    const courses = [];
 
     // Add each course using the addCourse function
-    courses.forEach(course => addCourse(course.courseId, course.title));
+    // courses.forEach(course => addCourse(course.courseId, course.title));
 }
 
 // Function to dynamically add a course item
