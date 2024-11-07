@@ -88,22 +88,60 @@
     <div id="content">
         <h3>Welcome, Admin</h3>
         <div id="profile-section">
-            <div>Total Courses :</div   >
-            <div>Total Users :</div >
-            <div>Total Teachers :</div  >
-            <div>Total Students :</div  >
+            <div>Total Courses : <span id="totalCourses">Loading...</span></div   >
+            <div>Total Users : <span id="totalUsers">Loading...</span></div >
+            <div>Total Teachers : <span id="totalTeachers">Loading...</span></div  >
+            <div>Total Students : <span id="totalStudents">Loading...</span></div  >
 
 
         </div>
         <br>
         <div id="profile-section">
-            <div id="manageUsers">Manage Users</div>
+            <div id="manageUsers" >Manage Users</div>
         </div>
     </div>
 
     <!-- Scripts -->
+    <script src="../../utility/functions.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        token = getCookie("authToken");
+
+        function setContent(){
+                const courses = document.getElementById("totalCourses");
+                const users = document.getElementById("totalUsers");
+                const teachers = document.getElementById("totalTeachers");
+                const students = document.getElementById("totalStudents");
+
+            fetch(`${urlport}/api/admin/all-count`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({token})
+            })
+            .then(response => response.json())
+            .then((data) => {
+              console.log("Success:", data);
+                users.innerText = data.totalUsers
+                ;
+                teachers.innerText = data.teachers;
+                students.innerText = data.students;
+                courses.innerText = data.courses;
+              
+            })
+
+
+        }
+        const manageUsers = document.getElementById("manageUsers");
+
+manageUsers.addEventListener("click",()=>{
+    window.location.href="./getUsers.html"
+}
+)
+        addEventListener("DOMContentLoaded", async () => {
+            setContent()
+        })
+    </script>
 </body>
 </html>
