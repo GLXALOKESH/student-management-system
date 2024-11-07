@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    <title>Teacher Settings</title>
+    <script src="../authorization.js"></script>
+
+    <style>
+      body {
+        display: flex;
+        height: 100vh;
+        margin: 0;
+        font-family: Arial, sans-serif;
+      }
+      #sidebar {
+        width: 250px;
+        background-color: #343a40;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+        height: 100vh;
+      }
+      #sidebar a {
+        color: white;
+        padding: 15px;
+        text-decoration: none;
+        margin-bottom: 10px;
+      }
+      #sidebar a:hover {
+        background-color: #495057;
+      }
+      #sidebar .active {
+        background-color: #495057;
+      }
+      #content {
+        padding: 20px;
+        width: 100%;
+      }
+      .setting-option {
+        padding: 15px;
+        background-color: white;
+        border: 1px solid #ddd;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .setting-option:hover {
+        background-color: #f0f0f0;
+      }
+
+      #navbar {
+        display: none; /* Hidden by default, shown on mobile */
+        width: 100%;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px;
+        background-color: #343a40;
+        color: white;
+      }
+
+      .navbar-menu {
+        display: none; /* Initially hidden */
+        flex-direction: column;
+        padding: 10px;
+        background-color: #343a40;
+        width: 100%;
+      }
+
+      .navbar-menu a {
+        color: white;
+        padding: 10px;
+        text-decoration: none;
+      }
+
+      .navbar-menu a:hover {
+        background-color: #495057;
+      }
+      .teacher-item{
+        padding: 1px;
+        border: 1px solid rgb(212, 208, 208);
+        margin: 1px 0px;
+        cursor: pointer;
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
+        body {
+          flex-direction: column;
+        }
+        #sidebar {
+          display: none; /* Hide sidebar on small screens */
+        }
+        #navbar {
+          display: flex; /* Show navbar on small screens */
+          flex-direction: column;
+          padding: 0px;
+        }
+        #navbar .navbar-menu {
+          display: flex; /* Show the menu items in the navbar */
+          flex-direction: row;
+          padding: 0px;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Sidebar -->
+    <div id="sidebar">
+        <h2>Admin Dashboard</h2>
+        <a href="adminHomepage.html" ><i class="fas fa-home"></i> Home</a>
+        <a href="adminCourses.html" ><i class="fas fa-book"></i> Manage Courses</a>
+        <a href="adminSettings.html" ><i class="fas fa-cog"></i> Settings</a>
+    </div>
+
+
+    <!-- Navbar for smaller screens -->
+    <div id="navbar">
+      <span >Teacher Dashboard</span>
+      <div class="navbar-menu" id="navbarMenu">
+        <a href="adminHomepage.html" class="nav-link active"
+          ><i class="fas fa-home"></i> Home</a
+        >
+        <a href=" adminCourses.html" class="nav-link"
+          ><i class="fas fa-book"></i> Courses</a
+        >
+        <a href="adminSettings.html" class="nav-link"
+          ><i class="fas fa-cog"></i> Settings</a
+        >
+      </div>
+    </div>
+
+    <div id="content">
+        <button class="btn btn-secondary mb-4" style="margin-right: auto;" id="back">
+            <i class="fas fa-arrow-left"></i> 
+        </button>
+        <h3>Teachers</h3>
+    
+        <!-- Teachers list -->
+        <div id="teachers">
+            <!-- Teachers will be loaded here -->
+        </div>
+    </div>
+    
+
+    
+
+    
+    <script src="../../utility/functions.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+       let token = getCookie("authToken");
+        // Function to fetch and display teachers
+async function fetchTeachers() {
+    try {
+        const response = await fetch(`${urlport}/api/admin/get-teacher-list`, {
+            method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ token: token }),
+        });
+        const teachers = await response.json();
+        console.log(teachers);
+        
+        const teachersContainer = document.getElementById("teachers");
+        teachersContainer.innerHTML = ""; // Clear previous data
+
+        teachers.teachers.forEach(teacher => {
+            const teacherItem = document.createElement("div");
+            teacherItem.classList.add("teacher-item", "d-flex", "justify-content-between", "align-items-center", "p-2");
+            teacherItem.dataset.id = teacher.user_id;
+            teacherItem.innerHTML = `
+                <span >${teacher.first_name} ${teacher.last_name} </span>
+                <button class="btn btn-danger btn-sm" onclick="deleteTeacher(this)">Delete</button>
+            `;
+
+            teachersContainer.appendChild(teacherItem);
+        });
+    } catch (error) {
+        console.error("Error fetching teachers:", error);
+    }
+}
+
+// Function to delete a teacher by ID
+async function deleteTeacher(item) {
+    const userId = item.closest("[data-id]").dataset.id;
+    try {
+        const response = await fetch(`${urlport}/api/admin/delete-teacher`, {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ token: token, user_id: userId }),
+        });
+        
+        if (response.ok) {
+            alert("Teacher deleted successfully");
+            fetchTeachers(); // Refresh the list after deletion
+        } else {
+            alert("Failed to delete teacher");
+        }
+    } catch (error) {
+        console.error("Error deleting teacher:", error);
+    }
+}
+
+// Initial load of teachers
+fetchTeachers();
+
+       
+        const back =document.getElementById('back')
+back.addEventListener('click', ()=>{
+  
+  window.location.href = `./getUsers.html`;
+})
+
+    </script>
+  </body>
+</html>
