@@ -22,6 +22,7 @@
         </form>
         <p class="text-center mt-3"><a href="#">Don't have an account? Sign up</a></p>
     </div>
+    <script src="../../utility/functions.js"></script>
 
     <script>
         document.getElementById('adminLoginForm').addEventListener('submit', function(e) {
@@ -36,7 +37,7 @@
             };
 
             // Send data to backend (replace with your backend URL)
-            fetch('https://your-backend-api.com/adminLogin', {
+            fetch(`${urlport}/api/auth/admin/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(loginData)
@@ -44,7 +45,19 @@
             .then(response => response.json())
             .then(data => {
                 console.log('Success:', data);
-                // Add redirect or success handling here
+                if (data.token) {
+                // Assuming the token is in data.token
+                // Set cookie with the token
+                document.cookie = `authToken=${data.token}; path=/; max-age=${
+                  60 * 60 * 24 * 9
+                }; Secure`;
+                // max-age is set to 24 hours, adjust as per the token's expiration
+
+                // Redirect or load content that requires authentication
+                window.location.href ="./adminHomepage.html"
+              } else {
+                console.error("No token received");
+              }
             })
             .catch((error) => console.error('Error:', error));
         });
